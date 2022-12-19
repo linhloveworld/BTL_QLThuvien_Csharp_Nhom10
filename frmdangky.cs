@@ -17,12 +17,18 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         public frmdangky()
         {
             InitializeComponent();
-            cnn = new SqlConnection("Data Source=THINKPADE14;Initial Catalog=BTL_NET1_QLThuVienDataSet");
+            cnn = new SqlConnection("Data Source=THINKPADE/MSSQLSERVER01;Initial Catalog=QLThuVien_BTL_NET1;Integrated Security=True;User Id=sa;Password=1");
         }
         private void dangky()
         {
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "sp_luutk";
+            cmd.CommandText = 
+                @"@TenDN nvarchar(50),
+                @MK nvarchar(50),
+                as
+	                begin
+		                insert into TAIKHOAN values (@TenDN,@MK) 
+	                end";
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Connection = cnn;
             string ten, mk, nlmk;
@@ -71,8 +77,8 @@ namespace BTL_QLThuvien_Csharp_Nhom10
                 lblthongbao.Focus();
                 return;
             }
-            cmd.Parameters.AddWithValue("@tendn", ten);
-            cmd.Parameters.AddWithValue("@mk", mk);
+            cmd.Parameters.AddWithValue("@TenDN", ten);
+            cmd.Parameters.AddWithValue("@MK", mk);
             cnn.Open();
             cmd.ExecuteNonQuery();
             cnn.Close();
@@ -95,15 +101,15 @@ namespace BTL_QLThuvien_Csharp_Nhom10
             else
             {
                 txttentk.PasswordChar = '\0';
-                txtmk.PasswordChar = '#';
-                txtlmk.PasswordChar = '#';
+                txtmk.PasswordChar = '*';
+                txtlmk.PasswordChar = '*';
             }
         }
 
         private void frmdangky_Load(object sender, EventArgs e)
         {
-            txtmk.PasswordChar = '#';
-            txtlmk.PasswordChar = '#';
+            txtmk.PasswordChar = '*';
+            txtlmk.PasswordChar = '*';
         }
 
         private void frmdangky_KeyDown(object sender, KeyEventArgs e)

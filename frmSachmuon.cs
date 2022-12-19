@@ -19,7 +19,7 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         public frmSachmuon()
         {
             InitializeComponent();
-            conn = new SqlConnection("Data Source=THINKPADE14;Initial Catalog=BTL_NET1_QLThuVienDataSet");
+            conn = new SqlConnection("Data Source=THINKPADE14/MSSQLSERVER01;Initial Catalog=QLThuVien_BTL_NET1;Integrated Security=True;User Id=sa;Password=1");
         }
         private DataTable loadphieumuon()
         {
@@ -42,7 +42,7 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         private DataTable loadsachmuon()
         {
             SqlCommand sqlcmd = new SqlCommand();
-            sqlcmd.CommandText = "sp_LOADSACHMUON";
+            sqlcmd.CommandText = @"SELECT * FROM SACHMUON";
             sqlcmd.CommandType = CommandType.StoredProcedure;
             sqlcmd.Connection = conn;
             DataTable sachmuon = new DataTable();
@@ -113,7 +113,20 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         private void luusachmuon()
         {
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "sp_LUUSACHMUON";
+            cmd.CommandText =
+                @"@MaPhieuMuon CHAR(10),
+	                @MaSach CHAR(10),
+	                @SoLuongSachMuon INT,
+	                @TinhTrang NVARCHAR(50),
+	                @NgayTra DATETIME
+                AS
+	                BEGIN
+		                IF NOT EXISTS(SELECT * FROM SACH WHERE MaSach=@MaSach)
+		                RETURN 1 ---KHONG TON TAI SACH
+		                IF NOT EXISTS(SELECT * FROM PHIEUMUON WHERE MaPhieuMuon = @MaPhieuMuon)
+		                RETURN 2 ---KHONG TON TAI PHIEUMUON
+		                INSERT INTO SACHMUON VALUES (@MaPhieuMuon,@MaSach,@TinhTrang,@SoLuongSachMuon,@NgayTra)
+	                END";
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Connection = conn;
             string mapm, masach, tinhtrang;
@@ -146,9 +159,9 @@ namespace BTL_QLThuvien_Csharp_Nhom10
             }
             ngaytra = DateTime.Parse(dtpngaytra.Value.ToString());
             cmd.Parameters.Add("@MaPieuMuon", mapm);
-            cmd.Parameters.Add("@MaSachMuon", masach);
+            cmd.Parameters.Add("@MaSach", masach);
             cmd.Parameters.Add("@SoLuongSachMuon", soluongsachmuon);
-            cmd.Parameters.Add("@TinhTrangSachMuon", tinhtrang);
+            cmd.Parameters.Add("@TinhTrang", tinhtrang);
             cmd.Parameters.Add("@NgayTra", ngaytra);
             try
             {
@@ -198,7 +211,17 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         private void xoasachmuon()
         {
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "sp_XOASACHMUON";
+            cmd.CommandText = @"@MaPhieuMuon CHAR(10),
+                                @MaSach CHAR(10)
+                                AS
+	                                BEGIN 
+		                                IF NOT EXISTS(SELECT * FROM SACHMUON WHERE MaPhieuMuon=@MaPhieuMuon)
+		                                RETURN 1 ---KHONG TON TAI MAPHIEUMUON
+		                                IF NOT EXISTS(SELECT * FROM SACHMUON WHERE MaSach=@MaSach)
+		                                RETURN 2 ---KHONG TON TAI MASACH
+		                                DELETE FROM SACHMUON
+		                                WHERE @MaPhieuMuon=MaPhieuMuon AND @MaSach=MaSach
+	                                END";
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Connection = conn;
             string mapm, masach, tinhtrang;
@@ -207,7 +230,7 @@ namespace BTL_QLThuvien_Csharp_Nhom10
             mapm = cbomapm.SelectedIndex.ToString();
             masach = cbomasach.SelectedIndex.ToString();
             cmd.Parameters.Add("MaPhieuMuon", mapm);
-            cmd.Parameters.Add("MaSachMuon", masach);
+            cmd.Parameters.Add("MaSach", masach);
             DialogResult dialog;
             dialog = MessageBox.Show("Ban thuc su muon xoa", "Thong bao",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -258,7 +281,24 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         private void suasachmuon()
         {
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "sp_SUASACHMUON";
+            cmd.CommandText =
+                @"@MaPhieuMuon CHAR(10),
+	                @MaSach CHAR(10),
+	                @TinhTrang NVARCHAR(50),
+	                @SoLuongSachMuon INT,
+	                @NgayTra DATETIME
+                AS
+	                BEGIN
+		                IF NOT EXISTS(SELECT * FROM SACH WHERE MaSach=@MaSach)
+		                RETURN 1 ---KHONG TON TAI SACH
+		                IF NOT EXISTS(SELECT * FROM PHIEUMUON WHERE MaPhieuMuon = @MaPhieuMuon)
+		                RETURN 2 ---KHONG TON TAI PHIEUMUON
+		                UPDATE SACHMUON
+		                SET TinhTrangSachMuon=@TinhTrang, 
+		                SoLuongSachMuon=@SoLuongSachMuon,
+		                NgayTra=@NgayTra
+		                WHERE MaPhieuMuon=@MaPhieuMuon AND MaSach=@MaSach
+	                END";
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Connection = conn;
             string mapm, masm, tinhtrang;
@@ -291,9 +331,9 @@ namespace BTL_QLThuvien_Csharp_Nhom10
                 return;
             }
             cmd.Parameters.Add("MaPhieuMuon", mapm);
-            cmd.Parameters.Add("@MaSachMuon", masm);
+            cmd.Parameters.Add("@MaSach", masm);
             cmd.Parameters.Add("@SoLuongSachMuon", slsachmuon);
-            cmd.Parameters.Add("@TinhTrangSachMuon", tinhtrang);
+            cmd.Parameters.Add("@TinhTrang", tinhtrang);
             cmd.Parameters.Add("@NgayTra", ngaytra);
             try
             {

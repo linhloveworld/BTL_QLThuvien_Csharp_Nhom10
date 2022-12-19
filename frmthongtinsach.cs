@@ -17,7 +17,7 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         public frmthongtinsach()
         {
             InitializeComponent();
-            con = new SqlConnection("Data Source=THINKPADE14;Initial Catalog=BTL_NET1_QLThuVienDataSet");
+            con = new SqlConnection("Data Source=THINKPADE14/MSSQLSERVER01;Initial Catalog=QLThuVien_BTL_NET1;Integrated Security=True;User Id=sa;Password=1");
         }
         private DataTable loadsachbihu()
         {
@@ -41,8 +41,7 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         }
         private DataTable loadsachtonkho()
         {
-            string truyvan = "SELECT * FROM SACH WHERE MaSach " +
-                "NOT IN(SELECT MaSach form SACHMUON)";
+            string truyvan = "SELECT * FROM SACH WHERE MaSach NOT IN(SELECT MaSach form SACHMUON)";
             SqlCommand cmd = new SqlCommand();
             DataTable sachtonkho = new DataTable();
             con.Open();

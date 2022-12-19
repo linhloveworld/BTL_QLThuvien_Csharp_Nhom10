@@ -18,7 +18,7 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         public frmSach()
         {
             InitializeComponent();
-            conn = new SqlConnection("Data Source=THINKPADE14;Initial Catalog=BTL_NET1_QLThuVienDataSet");
+            conn = new SqlConnection("Data Source=THINKPADE14/MSSQLSERVER01;Initial Catalog=QLThuVien_BTL_NET1;Integrated Security=True;User Id=sa;Password=1");
             vtsach = new DataTable();
             vtsach = loadsach();
         }
@@ -34,7 +34,7 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         private DataTable loadsach()
         {
             SqlCommand sqlcmd = new SqlCommand();
-            sqlcmd.CommandText = "sp_LOADSACH";
+            sqlcmd.CommandText = @"SELECT * FROM SACH";
             sqlcmd.CommandType = CommandType.StoredProcedure;
             sqlcmd.Connection = conn;
             DataTable sach = new DataTable();
@@ -117,7 +117,22 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         private void luusach()
         {
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "sp_LUUSACH";
+            cmd.CommandText =
+                @"@MaSach CHAR(10),
+                    @TenSach NVARCHAR(50),
+                    @TheLoai NVARCHAR(50),
+                    @TinhTrang NVARCHAR(50),
+                    @SoLuong INT,
+                    @NhaXuatBan NVARCHAR(50),
+                    @NamXuatBan CHAR(10),
+                    @TacGia NVARCHAR(50),
+                    @Anh IMAGE
+                    AS
+	                    BEGIN
+		                    IF EXISTS(SELECT * FROM SACH WHERE MaSach=@MaSach)
+		                    RETURN 1 ---TON TAI SACH
+		                    INSERT INTO SACH VALUES (@MaSach,@TenSach,@TheLoai,@TinhTrang,@SoLuong,@NhaXuatBan,@NamXuatBan,@TacGia,@Anh)
+	                    END";
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Connection = conn;
             string masach, ten, theloai, tinhtrang, nhaxb, namxb, tg, fileanh;
@@ -162,13 +177,13 @@ namespace BTL_QLThuvien_Csharp_Nhom10
             tg = txttg.Text;
             cmd.Parameters.Add("@MaSach", masach);
             cmd.Parameters.Add("@TenSach", ten);
-            cmd.Parameters.Add("@TheLoaiSach", theloai);
-            cmd.Parameters.Add("@SoLuongSach", soluong);
-            cmd.Parameters.Add("@TinhTrangSach", tinhtrang);
+            cmd.Parameters.Add("@TheLoai", theloai);
+            cmd.Parameters.Add("@SoLuong", soluong);
+            cmd.Parameters.Add("@TinhTrang", tinhtrang);
             cmd.Parameters.Add("@NhaXuatBan", nhaxb);
             cmd.Parameters.Add("@NamXuatBan", namxb);
-            cmd.Parameters.Add("@Tg", tg);
-            cmd.Parameters.Add("@Hinh", anh);
+            cmd.Parameters.Add("@TacGia", tg);
+            cmd.Parameters.Add("@Anh", anh);
             try
             {
                 cmd.Parameters.Add("@kq",
@@ -211,7 +226,19 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         private void xoasach()
         {
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "sp_XOASACH";
+            cmd.CommandText =
+                @"@MaSach CHAR(10)
+                    AS
+                        BEGIN
+                            IF EXISTS(SELECT* FROM PHIEUMUON WHERE MaSach= @MaSach)
+                            RETURN 1-- - TON TAI MASACH TRONG PHIEUMUON
+                            IF EXISTS(SELECT* FROM PHIEUNHACTRA WHERE MaSach= @MaSach)
+                            RETURN 2-- - TON TAI MASACH TRONG PHIEUNHACTRA
+                            IF EXISTS(SELECT* FROM SACHMUON WHERE MaSach = @MaSach)
+                            RETURN 3-- - TON TAI MASACH TRONG PHIEUNHACTRA
+                            DELETE FROM SACH
+                            WHERE MaSach = @MASACH
+                        END";
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Connection = conn;
             string masach;
@@ -273,7 +300,31 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         private void suasach()
         {
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "sp_SUASACH";
+            cmd.CommandText =
+                @"@MaSach CHAR(10),
+                    @TenSach NVARCHAR(50),
+                    @TheLoai NVARCHAR(50),
+                    @TinhTrang NVARCHAR(50),
+                    @SoLuong INT,
+                    @NhaXuatBan NVARCHAR(50),
+                    @NamXuatBan CHAR(10),
+                    @TacGia NVARCHAR(50),
+                    @Anh Image=NULL
+                    AS
+	                    BEGIN
+	                    IF NOT EXISTS(SELECT MaSach FROM SACH WHERE MaSach=@MaSach)
+		                    RETURN 1 ---KHONG TON TAI SACH
+		                    ELSE IF(@Anh IS NULL)
+		                    BEGIN
+		                    UPDATE SACH
+		                    SET TenSach=@TenSach,TheLoai=@TheLoai, TinhTrang=@TinhTrang,SoLuong=@SoLuong, NhaXuatBan=@NhaXuatBan,NamXuatBan=@NamXuatBan,TacGia=@TacGia
+		                    WHERE MaSach=@MaSach
+		                    END
+		                    ELSE
+		                    UPDATE SACH
+		                    SET TenSach=@TenSach,TheLoai=@TheLoai,TinhTrang=@TinhTrang,SoLuong=@SoLuong,NhaXuatBan=@NhaXuatBan,NamXuatBan=@NamXuatBan,TacGia=@TacGia,Anh=@Anh
+		                    WHERE MaSach = @MaSach
+	                    END";
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Connection = conn;
             string masach, ten, theloai, tinhtrang, nxb, namxb, tg, filehinh;
@@ -318,13 +369,13 @@ namespace BTL_QLThuvien_Csharp_Nhom10
             }
             cmd.Parameters.Add("@MaSach", masach);
             cmd.Parameters.Add("@TenSach", ten);
-            cmd.Parameters.Add("@TheLoaiSach", theloai);
-            cmd.Parameters.Add("@SoLuongSach", soluong);
-            cmd.Parameters.Add("@TinhTrangSach", tinhtrang);
+            cmd.Parameters.Add("@TheLoai", theloai);
+            cmd.Parameters.Add("@SoLuong", soluong);
+            cmd.Parameters.Add("@TinhTrang", tinhtrang);
             cmd.Parameters.Add("@NhaXuatBan", nxb);
             cmd.Parameters.Add("@NamXuatBan", namxb);
-            cmd.Parameters.Add("@TG", tg);
-            cmd.Parameters.Add("@HINH", anh);
+            cmd.Parameters.Add("@TacGia", tg);
+            cmd.Parameters.Add("@Anh", anh);
             try
             {
                 cmd.Parameters.Add("@kq",

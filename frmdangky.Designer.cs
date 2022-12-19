@@ -63,7 +63,7 @@ namespace BTL_QLThuvien_Csharp_Nhom10
             this.button2.IdleFillColor = System.Drawing.Color.White;
             this.button2.IdleForecolor = System.Drawing.Color.SeaGreen;
             this.button2.IdleLineColor = System.Drawing.Color.SeaGreen;
-            this.button2.Location = new System.Drawing.Point(572, 361);
+            this.button2.Location = new System.Drawing.Point(420, 371);
             this.button2.Margin = new System.Windows.Forms.Padding(5);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(95, 46);
@@ -74,7 +74,7 @@ namespace BTL_QLThuvien_Csharp_Nhom10
             // btndangky
             // 
             this.btndangky.Activecolor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(139)))), ((int)(((byte)(87)))));
-            this.btndangky.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(139)))), ((int)(((byte)(87)))));
+            this.btndangky.BackColor = System.Drawing.SystemColors.Control;
             this.btndangky.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btndangky.BorderRadius = 5;
             this.btndangky.ButtonText = "Agree";
@@ -92,7 +92,7 @@ namespace BTL_QLThuvien_Csharp_Nhom10
             this.btndangky.IconVisible = true;
             this.btndangky.IconZoom = 90D;
             this.btndangky.IsTab = false;
-            this.btndangky.Location = new System.Drawing.Point(292, 361);
+            this.btndangky.Location = new System.Drawing.Point(194, 371);
             this.btndangky.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btndangky.Name = "btndangky";
             this.btndangky.Normalcolor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(139)))), ((int)(((byte)(87)))));
@@ -104,7 +104,7 @@ namespace BTL_QLThuvien_Csharp_Nhom10
             this.btndangky.TabIndex = 4;
             this.btndangky.Text = "Agree";
             this.btndangky.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btndangky.Textcolor = System.Drawing.Color.White;
+            this.btndangky.Textcolor = System.Drawing.Color.Black;
             this.btndangky.TextFont = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btndangky.Click += new System.EventHandler(this.btndangky_Click);
             // 
@@ -174,7 +174,7 @@ namespace BTL_QLThuvien_Csharp_Nhom10
             // 
             this.lblthongbao.AutoSize = true;
             this.lblthongbao.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.lblthongbao.Location = new System.Drawing.Point(687, 60);
+            this.lblthongbao.Location = new System.Drawing.Point(12, 199);
             this.lblthongbao.Name = "lblthongbao";
             this.lblthongbao.Size = new System.Drawing.Size(78, 17);
             this.lblthongbao.TabIndex = 36;
@@ -184,7 +184,7 @@ namespace BTL_QLThuvien_Csharp_Nhom10
             // 
             this.checkBox1.AutoSize = true;
             this.checkBox1.BackColor = System.Drawing.Color.Lime;
-            this.checkBox1.Location = new System.Drawing.Point(572, 194);
+            this.checkBox1.Location = new System.Drawing.Point(560, 199);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(119, 21);
             this.checkBox1.TabIndex = 31;
@@ -196,6 +196,7 @@ namespace BTL_QLThuvien_Csharp_Nhom10
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.lblthongbao);

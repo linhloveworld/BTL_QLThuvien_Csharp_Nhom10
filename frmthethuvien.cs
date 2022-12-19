@@ -14,7 +14,7 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         public frmthethuvien()
         {
             InitializeComponent();
-            sqlconn = new SqlConnection("Data Source=THINKPADE14;Initial Catalog=BTL_NET1_QLThuVienDataSet");
+            sqlconn = new SqlConnection("Data Source=THINKPADE14/MSSQLSERVER01;Initial Catalog=QLThuVien_BTL_NET1;Integrated Security=True;User Id=sa;Password=1");
         }
         private string taomathe()
         {
@@ -75,7 +75,7 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         public DataTable loadthetv()
         {
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "sp_LOADTHETHUVIEN";
+            cmd.CommandText = @"SELECT * FROM THETHUVIEN";
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Connection = sqlconn;
             DataTable thetv = new DataTable();
@@ -128,7 +128,21 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         private void luuthethuvien()
         {
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "sp_LUUTHETHUVIEN";
+            cmd.CommandText = 
+                @"@MaTheThuVien CHAR(10),
+                @TenSinhVien NVARCHAR(50),
+                @GioiTinh Bit,
+                @NgaySinh DATETIME,
+                @DiaChi NVARCHAR(50),
+                @SoDienThoai NVARCHAR(50),
+                @NgayTaoThe DATETIME,
+                @NgayTheHetHan DATETIME
+                AS
+	                BEGIN
+	                IF EXISTS(SELECT * FROM THETHUVIEN WHERE MaTheThuVien=@MaTheThuVien)
+	                RETURN 1
+	                INSERT INTO THETHUVIEN VALUES (@MaTheThuVien,@TenSinhVien,@GioiTinh,@NgaySinh,@DiaChi,@DienThoai,@NgayTaoThe,@NgayTheHetHan)
+	                END";
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Connection = sqlconn;
             string mathe, tensv, diachi, sdt;
@@ -181,11 +195,11 @@ namespace BTL_QLThuvien_Csharp_Nhom10
             cmd.Parameters.Add("@MaTheThuVien", mathe);
             cmd.Parameters.Add("@TenSinhVien", tensv);
             cmd.Parameters.Add("@GioiTinh", gioitinh);
-            cmd.Parameters.Add("@DiaChiSV", diachi);
-            cmd.Parameters.Add("@SoDienThoaiSV", sdt);
+            cmd.Parameters.Add("@DiaChi", diachi);
+            cmd.Parameters.Add("@DienThoai", sdt);
             cmd.Parameters.Add("@NgaySinh",ngaysinh);
             cmd.Parameters.Add("@NgayTaoThe",ngaylapthe);
-            cmd.Parameters.Add("@NgayTheHetHan",ngaythehethan);
+            cmd.Parameters.Add("@NgayHetHanThe",ngaythehethan);
             try
             {
                 cmd.Parameters.Add("@kq", SqlDbType.Int).Direction = ParameterDirection.ReturnValue;
@@ -225,7 +239,29 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         private void suathethuvien()
         {
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "sp_SUATHETHUVIEN";
+            cmd.CommandText =
+                @"@MaTheThuVien CHAR(10),
+	            @TenSinhVien NVARCHAR(50),
+	            @GioiTinh Bit,
+	            @NgaySinh DATETIME,
+	            @DiaChi NVARCHAR(50),
+	            @DienThoai NVARCHAR(50),
+	            @NgayTaoThe DATETIME,
+	            @NgayTheHetHan DATETIME
+            AS
+	            BEGIN
+		            IF NOT EXISTS(SELECT * FROM THETHUVIEN WHERE MaTheThuVien=@MaTheThuVien)
+		            RETURN 1 ---KHONG TON TAI THETHUVIEN
+		            UPDATE THETHUVIEN
+		            SET TenSinhVien=@TenSinhVien,
+		            GioiTinh=@GioiTinh,
+		            NgaySinh=@NgaySinh,
+		            DiaChi=@DiaChi,
+		            DienThoai=@DienThoai,
+		            NgayTaoThe=@NgayTaoThe,
+		            NgayTheHetHan=@NgayTheHetHan
+		            WHERE MaTheThuVien=@MaTheThuVien
+	            END";
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Connection = sqlconn;
             string mathe, tensv, diachi, sdt;
@@ -278,8 +314,8 @@ namespace BTL_QLThuvien_Csharp_Nhom10
             cmd.Parameters.Add("@MaTheThuVien", mathe);
             cmd.Parameters.Add("@TenSinhVien", tensv);
             cmd.Parameters.Add("@GioiTinh", gioitinh);
-            cmd.Parameters.Add("@DiaChiSV", diachi);
-            cmd.Parameters.Add("@SoDienThoaiSV", sdt);
+            cmd.Parameters.Add("@DiaChi", diachi);
+            cmd.Parameters.Add("@DienThoai", sdt);
             cmd.Parameters.Add("@NgaySinh", ngaysinh);
             cmd.Parameters.Add("@NgayTaoThe", ngaylapthe);
             cmd.Parameters.Add("@NgayTheHetHan", ngaythehethan);
@@ -323,7 +359,16 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         private void xoathethuvien()
         {
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "sp_XOATHETHUVIEN";
+            cmd.CommandText = @"@MaTheThuVien CHAR(10)
+                                AS
+	                                BEGIN
+		                                IF EXISTS(SELECT * FROM PHIEUMUON WHERE MaTheThuVien=@MaTheThuVien)
+		                                RETURN 1 ---TON TAI THETV
+		                                IF EXISTS(SELECT * FROM PHIEUNHACTRA WHERE MaTheThuVien=@MaTheThuVien)
+		                                RETURN 2 ---TON TAI THETV
+		                                DELETE FROM THETHUVIEN
+		                                WHERE @MaTheThuVien=MaTheThuVien
+	                                END";
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Connection = sqlconn;
             string mathethuvien;

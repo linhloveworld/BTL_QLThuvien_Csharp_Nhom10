@@ -60,14 +60,10 @@ namespace BTL_QLThuvien_Csharp_Nhom10
             this.ckhienthimk = new Bunifu.Framework.UI.BunifuCheckbox();
             this.bunifuCustomLabel8 = new Bunifu.Framework.UI.BunifuCustomLabel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.lblthongbao = new System.Windows.Forms.Label();
             this.txtmatkhau = new System.Windows.Forms.TextBox();
             this.txttaikhoan = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -220,8 +216,8 @@ namespace BTL_QLThuvien_Csharp_Nhom10
             this.lbl1.AutoSize = true;
             this.lbl1.BackColor = System.Drawing.Color.Transparent;
             this.lbl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 28.2F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl1.ForeColor = System.Drawing.Color.Yellow;
-            this.lbl1.Location = new System.Drawing.Point(334, 56);
+            this.lbl1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.lbl1.Location = new System.Drawing.Point(329, 56);
             this.lbl1.Name = "lbl1";
             this.lbl1.Size = new System.Drawing.Size(386, 55);
             this.lbl1.TabIndex = 1;
@@ -233,7 +229,7 @@ namespace BTL_QLThuvien_Csharp_Nhom10
             this.bunifuCustomLabel2.BackColor = System.Drawing.Color.Transparent;
             this.bunifuCustomLabel2.Font = new System.Drawing.Font("Arial", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bunifuCustomLabel2.ForeColor = System.Drawing.Color.Black;
-            this.bunifuCustomLabel2.Location = new System.Drawing.Point(12, 414);
+            this.bunifuCustomLabel2.Location = new System.Drawing.Point(14, 342);
             this.bunifuCustomLabel2.Name = "bunifuCustomLabel2";
             this.bunifuCustomLabel2.Size = new System.Drawing.Size(241, 27);
             this.bunifuCustomLabel2.TabIndex = 2;
@@ -246,7 +242,7 @@ namespace BTL_QLThuvien_Csharp_Nhom10
             this.bunifuCustomLabel3.BackColor = System.Drawing.Color.Transparent;
             this.bunifuCustomLabel3.Font = new System.Drawing.Font("Arial", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bunifuCustomLabel3.ForeColor = System.Drawing.Color.Black;
-            this.bunifuCustomLabel3.Location = new System.Drawing.Point(780, 414);
+            this.bunifuCustomLabel3.Location = new System.Drawing.Point(780, 342);
             this.bunifuCustomLabel3.Name = "bunifuCustomLabel3";
             this.bunifuCustomLabel3.Size = new System.Drawing.Size(245, 27);
             this.bunifuCustomLabel3.TabIndex = 3;
@@ -257,7 +253,7 @@ namespace BTL_QLThuvien_Csharp_Nhom10
             this.bunifuCustomLabel4.AutoSize = true;
             this.bunifuCustomLabel4.BackColor = System.Drawing.Color.Transparent;
             this.bunifuCustomLabel4.Font = new System.Drawing.Font("Segoe UI", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bunifuCustomLabel4.Location = new System.Drawing.Point(12, 447);
+            this.bunifuCustomLabel4.Location = new System.Drawing.Point(12, 382);
             this.bunifuCustomLabel4.Name = "bunifuCustomLabel4";
             this.bunifuCustomLabel4.Size = new System.Drawing.Size(216, 38);
             this.bunifuCustomLabel4.TabIndex = 4;
@@ -268,7 +264,7 @@ namespace BTL_QLThuvien_Csharp_Nhom10
             this.bunifuCustomLabel5.AutoSize = true;
             this.bunifuCustomLabel5.BackColor = System.Drawing.Color.Transparent;
             this.bunifuCustomLabel5.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bunifuCustomLabel5.Location = new System.Drawing.Point(779, 447);
+            this.bunifuCustomLabel5.Location = new System.Drawing.Point(779, 382);
             this.bunifuCustomLabel5.Name = "bunifuCustomLabel5";
             this.bunifuCustomLabel5.Size = new System.Drawing.Size(115, 32);
             this.bunifuCustomLabel5.TabIndex = 5;
@@ -280,7 +276,7 @@ namespace BTL_QLThuvien_Csharp_Nhom10
             this.bunifuCustomLabel6.BackColor = System.Drawing.Color.Transparent;
             this.bunifuCustomLabel6.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bunifuCustomLabel6.ForeColor = System.Drawing.Color.Black;
-            this.bunifuCustomLabel6.Location = new System.Drawing.Point(285, 133);
+            this.bunifuCustomLabel6.Location = new System.Drawing.Point(208, 132);
             this.bunifuCustomLabel6.Name = "bunifuCustomLabel6";
             this.bunifuCustomLabel6.Size = new System.Drawing.Size(155, 35);
             this.bunifuCustomLabel6.TabIndex = 6;
@@ -292,7 +288,7 @@ namespace BTL_QLThuvien_Csharp_Nhom10
             this.bunifuCustomLabel7.BackColor = System.Drawing.Color.Transparent;
             this.bunifuCustomLabel7.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bunifuCustomLabel7.ForeColor = System.Drawing.Color.Black;
-            this.bunifuCustomLabel7.Location = new System.Drawing.Point(285, 198);
+            this.bunifuCustomLabel7.Location = new System.Drawing.Point(208, 198);
             this.bunifuCustomLabel7.Name = "bunifuCustomLabel7";
             this.bunifuCustomLabel7.Size = new System.Drawing.Size(137, 35);
             this.bunifuCustomLabel7.TabIndex = 7;
@@ -302,12 +298,11 @@ namespace BTL_QLThuvien_Csharp_Nhom10
             // 
             this.bunifuFlatButton1.Activecolor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.bunifuFlatButton1.BackColor = System.Drawing.Color.Transparent;
-            this.bunifuFlatButton1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.bunifuFlatButton1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.bunifuFlatButton1.BorderRadius = 5;
-            this.bunifuFlatButton1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.bunifuFlatButton1.ButtonText = "Đăng nhập";
-            this.bunifuFlatButton1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.bunifuFlatButton1.DisabledColor = System.Drawing.Color.Gray;
+            this.bunifuFlatButton1.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.bunifuFlatButton1.DisabledColor = System.Drawing.Color.Transparent;
             this.bunifuFlatButton1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bunifuFlatButton1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.bunifuFlatButton1.Iconcolor = System.Drawing.Color.Transparent;
@@ -322,14 +317,14 @@ namespace BTL_QLThuvien_Csharp_Nhom10
             this.bunifuFlatButton1.IconVisible = false;
             this.bunifuFlatButton1.IconZoom = 90D;
             this.bunifuFlatButton1.IsTab = false;
-            this.bunifuFlatButton1.Location = new System.Drawing.Point(328, 267);
+            this.bunifuFlatButton1.Location = new System.Drawing.Point(419, 267);
             this.bunifuFlatButton1.Margin = new System.Windows.Forms.Padding(4);
             this.bunifuFlatButton1.Name = "bunifuFlatButton1";
             this.bunifuFlatButton1.Normalcolor = System.Drawing.Color.Transparent;
             this.bunifuFlatButton1.OnHovercolor = System.Drawing.Color.Lime;
             this.bunifuFlatButton1.OnHoverTextColor = System.Drawing.Color.Yellow;
             this.bunifuFlatButton1.selected = false;
-            this.bunifuFlatButton1.Size = new System.Drawing.Size(94, 41);
+            this.bunifuFlatButton1.Size = new System.Drawing.Size(109, 38);
             this.bunifuFlatButton1.TabIndex = 10;
             this.bunifuFlatButton1.Text = "Đăng nhập";
             this.bunifuFlatButton1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -339,12 +334,12 @@ namespace BTL_QLThuvien_Csharp_Nhom10
             // 
             // ckhienthimk
             // 
-            this.ckhienthimk.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(205)))), ((int)(((byte)(117)))));
+            this.ckhienthimk.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(132)))), ((int)(((byte)(135)))), ((int)(((byte)(140)))));
             this.ckhienthimk.ChechedOffColor = System.Drawing.Color.FromArgb(((int)(((byte)(132)))), ((int)(((byte)(135)))), ((int)(((byte)(140)))));
-            this.ckhienthimk.Checked = true;
+            this.ckhienthimk.Checked = false;
             this.ckhienthimk.CheckedOnColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(205)))), ((int)(((byte)(117)))));
             this.ckhienthimk.ForeColor = System.Drawing.Color.White;
-            this.ckhienthimk.Location = new System.Drawing.Point(808, 213);
+            this.ckhienthimk.Location = new System.Drawing.Point(753, 208);
             this.ckhienthimk.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ckhienthimk.Name = "ckhienthimk";
             this.ckhienthimk.Size = new System.Drawing.Size(20, 20);
@@ -354,7 +349,7 @@ namespace BTL_QLThuvien_Csharp_Nhom10
             // bunifuCustomLabel8
             // 
             this.bunifuCustomLabel8.AutoSize = true;
-            this.bunifuCustomLabel8.Location = new System.Drawing.Point(835, 213);
+            this.bunifuCustomLabel8.Location = new System.Drawing.Point(780, 208);
             this.bunifuCustomLabel8.Name = "bunifuCustomLabel8";
             this.bunifuCustomLabel8.Size = new System.Drawing.Size(99, 17);
             this.bunifuCustomLabel8.TabIndex = 12;
@@ -363,22 +358,6 @@ namespace BTL_QLThuvien_Csharp_Nhom10
             // timer1
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Location = new System.Drawing.Point(49, 77);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(100, 50);
-            this.pictureBox1.TabIndex = 13;
-            this.pictureBox1.TabStop = false;
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Location = new System.Drawing.Point(49, 156);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(100, 50);
-            this.pictureBox2.TabIndex = 14;
-            this.pictureBox2.TabStop = false;
             // 
             // lblthongbao
             // 
@@ -390,7 +369,7 @@ namespace BTL_QLThuvien_Csharp_Nhom10
             // 
             // txtmatkhau
             // 
-            this.txtmatkhau.Location = new System.Drawing.Point(479, 211);
+            this.txtmatkhau.Location = new System.Drawing.Point(419, 208);
             this.txtmatkhau.Name = "txtmatkhau";
             this.txtmatkhau.PasswordChar = '*';
             this.txtmatkhau.Size = new System.Drawing.Size(296, 22);
@@ -398,7 +377,7 @@ namespace BTL_QLThuvien_Csharp_Nhom10
             // 
             // txttaikhoan
             // 
-            this.txttaikhoan.Location = new System.Drawing.Point(480, 145);
+            this.txttaikhoan.Location = new System.Drawing.Point(419, 145);
             this.txttaikhoan.Name = "txttaikhoan";
             this.txttaikhoan.Size = new System.Drawing.Size(296, 22);
             this.txttaikhoan.TabIndex = 17;
@@ -407,14 +386,11 @@ namespace BTL_QLThuvien_Csharp_Nhom10
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::BTL_QLThuvien_Csharp_Nhom10.Properties.Resources._9320262_4144946;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.ClientSize = new System.Drawing.Size(1037, 488);
+            this.ClientSize = new System.Drawing.Size(1037, 454);
             this.Controls.Add(this.txttaikhoan);
             this.Controls.Add(this.txtmatkhau);
             this.Controls.Add(this.lblthongbao);
-            this.Controls.Add(this.pictureBox2);
-            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.bunifuCustomLabel8);
             this.Controls.Add(this.ckhienthimk);
             this.Controls.Add(this.bunifuFlatButton1);
@@ -433,8 +409,6 @@ namespace BTL_QLThuvien_Csharp_Nhom10
             this.Load += new System.EventHandler(this.Giaodien_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -471,8 +445,6 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         private System.Windows.Forms.ToolStripMenuItem mnubaocao;
         private System.Windows.Forms.ToolStripMenuItem mnutrogiup;
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Label lblthongbao;
         private System.Windows.Forms.TextBox txtmatkhau;
         private System.Windows.Forms.TextBox txttaikhoan;

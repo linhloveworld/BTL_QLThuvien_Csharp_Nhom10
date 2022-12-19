@@ -16,7 +16,7 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         public frmtimkiemsach()
         {
             InitializeComponent();
-            cnn = new SqlConnection("Data Source=THINKPADE14;Initial Catalog=BTL_NET1_QLThuVienDataSet");
+            cnn = new SqlConnection("Data Source=THINKPADE14/MSSQLSERVER01;Initial Catalog=QLThuVien_BTL_NET1;Integrated Security=True;User Id=sa;Password=1");
         }
 
         private void frmtimkiemsach_Load(object sender, EventArgs e)
@@ -192,7 +192,7 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         private DataTable loadsach()
         {
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "sp_LOADSACH";
+            cmd.CommandText = @"SELECT * FROM SACH";
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Connection = cnn;
             DataTable sach = new DataTable();

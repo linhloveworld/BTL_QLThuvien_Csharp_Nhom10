@@ -51,11 +51,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BTL_NET1_QLThuVienDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BTL_NET1_QLThuVienDataSet.xsd</DependentUpon>
-    </Compile>
     <Compile Include="frmdangky.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -185,17 +180,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="BTL_NET1_QLThuVienDataSet.xsc">
-      <DependentUpon>BTL_NET1_QLThuVienDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="BTL_NET1_QLThuVienDataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>BTL_NET1_QLThuVienDataSet.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="BTL_NET1_QLThuVienDataSet.xss">
-      <DependentUpon>BTL_NET1_QLThuVienDataSet.xsd</DependentUpon>
-    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -371,8 +355,6 @@
   <ItemGroup>
     <None Include="Resources\blue_to_green_by_jesssaysno_df3mfpl.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="AnhHeThong\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

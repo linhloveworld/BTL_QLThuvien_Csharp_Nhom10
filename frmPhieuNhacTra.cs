@@ -18,7 +18,7 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         public frmPhieuNhacTra()
         {
             InitializeComponent();
-            conn = new SqlConnection("Data Source=THINKPADE14;Initial Catalog=BTL_NET1_QLThuVienDataSet");
+            conn = new SqlConnection("Data Source=THINKPADE14/MSSQLSERVER01;Initial Catalog=QLThuVien_BTL_NET1;Integrated Security=True;User Id=sa;Password=1");
         }
         
         private void txtghichu_TextChanged(object sender, EventArgs e)
@@ -104,7 +104,7 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.CommandText = "sp_LOADNHANVIEN";
+            cmd.CommandText = @"SELECT * FROM NHANVIEN";
             cmd.Connection = conn;
             DataTable nhanvien = new DataTable();
             conn.Open();
@@ -122,7 +122,7 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.CommandText = "sp_LOADTHETHUVIEN";
+            cmd.CommandText = @"SELECT * FROM THETHUVIEN";
             cmd.Connection = conn;
             DataTable thethuvien
                 = new DataTable();
@@ -141,7 +141,7 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.CommandText = "sp_LOADPHIEUNHACTRA";
+            cmd.CommandText = @"SELECT MaPNT,MaTheThuVien,CONVERT(CHAR(10),NgayLapPhieu,103) as NgayLapPhieu,DonGiaPhat,MaNhanVien,MaSach FROM PHIEUNHACTRA";
             cmd.Connection = conn;
             DataTable phieunhactra = new DataTable();
             conn.Open();
@@ -165,7 +165,24 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.CommandText = "sp_LUUPHIEUNHACTRA";
+            cmd.CommandText = @"@MaPhieuNhacTra CHAR(10),
+	                        @MaTheThuVien CHAR(10)
+	                        @NgayLapPhieu DATETIME,
+	                        @DonGiaPhat INT,
+	                        @MaNhanVien CHAR(10),
+	                        @MaSach CHAR(10)
+                        AS
+	                        BEGIN
+	                        IF EXISTS(SELECT * FROM PHIEUNHACTRA WHERE MaPhieuNhacTra=@MaPhieuNhacTra)
+	                        RETURN 1 ---TON TAI MA PNT
+	                        IF NOT EXISTS(SELECT * FROM NHANVIEN WHERE MaNhanVien=@MaNhanVien)
+	                        RETURN 2 ---KHONG TON TAI MA NV
+	                        IF NOT EXISTS(SELECT * FROM THETHUVIEN WHERE MaTheThuVien=@MaTheTV)
+	                        RETURN 3 ----KHONG TON TAI MA THETV
+	                        IF NOT EXISTS(SELECT * FROM SACH WHERE MaSach=@MaSach)
+	                        RETURN 4 ----KHONG TON TAI MA SACH
+	                        INSERT INTO PHIEUNHACTRA VALUES (@MaPhieuNhacTra,@MaTheThuVien,@NgayLapPhieu,@DonGiaPhat,@MaNhanVienV,@MaSach)
+	                        END";
             cmd.Connection = conn;
             string mapnt, masach, manv, mathe, ghichu;
             double dongiaphat;
@@ -184,7 +201,7 @@ namespace BTL_QLThuvien_Csharp_Nhom10
             {
                 dongiaphat = double.Parse(txtdgp.Text);
             }
-            cmd.Parameters.Add("@MaPNT", mapnt);
+            cmd.Parameters.Add("@MaPhieuNhacTra", mapnt);
             cmd.Parameters.Add("@MaTheThuVien", mathe);
             cmd.Parameters.Add("@MaSach", masach);
             cmd.Parameters.Add("@MaNhanVien", manv);
@@ -247,7 +264,31 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         private void suaphieunhactra()
         {
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "sp_SUAPHIEUNHACTRA";
+            cmd.CommandText =
+                @"@MaPhieuNhacTra CHAR(10),
+	                @MaTheThuVien CHAR(10),
+	                @NgayLapPhieu DATETIME,
+	                @DonGiaPhat INT,
+	                @MaNhanVien CHAR(10),
+	                @MaSach CHAR(10)
+                AS
+	                BEGIN
+	                IF NOT EXISTS(SELECT * FROM PHIEUNHACTRA WHERE MaPhieuNhacTra=@MaPhieuNhacTra)
+	                RETURN 1 ---KHONG TON TAI MA PNT
+	                IF NOT EXISTS(SELECT * FROM NHANVIEN WHERE MaNhanVien=@MaNhanVien)
+	                RETURN 2 ---KHONG TON TAI MA NV
+	                IF NOT EXISTS(SELECT * FROM THETHUVIEN WHERE MaTheThuVien=@MaTheTV)
+	                RETURN 3 ---KHONG TON TAI MA THE TV
+	                IF NOT EXISTS(SELECT * FROM SACH WHERE MaSach=@MaSach)
+	                RETURN 4 ---KHONG TON TAI MA SACH
+	                UPDATE PHIEUNHACTRA
+	                SET MaTheThuVien=@MaTheTV,
+	                NgayLapPhieu=@NgayLap,
+	                DonGiaPhat=@DonGiaPhat,
+	                MaNhanVien=@MaNV,
+	                MaSach=@MaSach
+	                WHERE MaPhieuNhacTra=@MaPhieuNhacTra
+	                END";
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Connection = conn;
             string mapnt, manv, mathe, masach, ghichu;
@@ -264,12 +305,12 @@ namespace BTL_QLThuvien_Csharp_Nhom10
                 dongiaphat = 0;
             }
             else dongiaphat = double.Parse(txtdgp.Text);
-            cmd.Parameters.Add("@MaPNT", mapnt);
+            cmd.Parameters.Add("@MaPhieuNhacTra", mapnt);
             cmd.Parameters.Add("@NgayLap", ngaylap);
             cmd.Parameters.Add("@DonGiaPhat", dongiaphat);
-            cmd.Parameters.Add("@MaNV", manv);
+            cmd.Parameters.Add("@MaNhanVien", manv);
             cmd.Parameters.Add("@MaSach", masach);
-            cmd.Parameters.Add("@MaThe", mathe);
+            cmd.Parameters.Add("@MaTheThuVien", mathe);
             cmd.Parameters.Add("@GhiChu", ghichu);
             try
             {
@@ -331,12 +372,16 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         private void xoaphieunhactra()
         {
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "sp_XOAPHIEUNHACTRA";
+            cmd.CommandText = @"@MaPhieuNhacTra CHAR(10)
+	                                    BEGIN
+	                                    DELETE FROM PHIEUNHACTRA
+	                                    WHERE @MaPhieuNhacTra=MaPhieuNhacTra
+	                                    END";
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Connection = conn;
             string mapnt;
             mapnt = txtmapnt.Text;
-            cmd.Parameters.Add("@MaPNT", mapnt);
+            cmd.Parameters.Add("@MaPhieuNhacTra", mapnt);
             DialogResult kq;
             kq = MessageBox.Show("Bạn Thật Sự Muốn Xóa", "Chú Ý", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (kq == DialogResult.Yes)

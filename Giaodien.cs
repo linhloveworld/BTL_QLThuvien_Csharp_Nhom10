@@ -56,14 +56,15 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         }
         public Object laygiatri(string sql)
         {
+            string ten, mk;
+            ten = txttaikhoan.Text;
+            mk = txtmatkhau.Text;
             cmd = new SqlCommand();
-            cmd.CommandText = sql;
+            cmd.CommandText = "select * from TAIKHOAN";
             cmd.CommandType = CommandType.Text;
             cmd.Connection = conn;
             conn.Open();
-            //chi can lay ve gia tri cua mot truong thoi
             Object o = cmd.ExecuteScalar();
-            //neu co loi thi phai xem lai cua lenh SQL o ben kia
             conn.Close();
             return o;
         }
@@ -140,7 +141,7 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         public Giaodien()
         {
             InitializeComponent();
-            conn = new SqlConnection("Data Source=THINKPADE14;Initial Catalog=BTL_NET1_QLThuVienDataSet");
+            conn = new SqlConnection("Data Source=THINKPADE14/MSSQLSERVER01;Initial Catalog=QLThuVien_BTL_NET1;Integrated Security=True;User Id=sa;Password=1");
         }
 
         private void bunifuCustomLabel2_Click(object sender, EventArgs e)

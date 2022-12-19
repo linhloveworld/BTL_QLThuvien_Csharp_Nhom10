@@ -18,7 +18,7 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         public frmNhanVien()
         {
             InitializeComponent();
-            con = new SqlConnection("Data Source=THINKPADE14;Initial Catalog=BTL_NET1_QLThuVienDataSet");
+            con = new SqlConnection("Data Source=THINKPADE14/MSSQLSERVER01;Initial Catalog=QLThuVien_BTL_NET1;Integrated Security=True;User Id=sa;Password=1");
         }
 
         private void txtTennv_OnValueChanged(object sender, EventArgs e)
@@ -46,7 +46,7 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         private DataTable docdulieu()
         {
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "sp_LOADNHANVIEN";
+            cmd.CommandText = "SELECT * FROM NHANVIEN";
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Connection = con;
             DataTable nhanvien = new DataTable();
@@ -125,7 +125,20 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         private void luunhanvien()
         {
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "sp_LUUNHANVIEN";
+            cmd.CommandText =
+                @"@MaNhanVien CHAR(10),
+                    @TenNhanVien NVARCHAR(50),
+                    @GioiTinh Bit,
+                    @ChucVuNV NVARCHAR(50),
+                    @DiaChi NVARCHAR(50),
+                    @DienThoai NVARCHAR(50),
+                    @NgaySinh DATETIME,
+                    @NgayVaoLam DATETIME
+	                    BEGIN 
+	                    IF EXISTS(SELECT * FROM NHANVIEN WHERE MaNhanVien = @MaNhanVien)
+	                    RETURN 1 ---KHONG TON TAI MANV
+	                    INSERT INTO NHANVIEN VALUES (@MaNhanVien,@TenNhanVien,@NgaySinh,@GioiTinh,@DiaChi,@DienThoai,@NgayVaoLam,@ChucVuNV)
+	                    END";
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Connection = con;
             string manv, tennv, chucvunv, diachinv, dienthoainv;
@@ -173,14 +186,14 @@ namespace BTL_QLThuvien_Csharp_Nhom10
             chucvunv = txtChucvunv.Text;
             diachinv = txtDiachinv.Text;
             dienthoainv = txtDienthoainv.Text;
-            cmd.Parameters.AddWithValue("@MaNV", manv);
-            cmd.Parameters.AddWithValue("@TenNV", tennv);
+            cmd.Parameters.AddWithValue("@MaNhanVien", manv);
+            cmd.Parameters.AddWithValue("@TenNhanVien", tennv);
             cmd.Parameters.AddWithValue("@NgaySinh", ngaysinh);
             cmd.Parameters.AddWithValue("@Ngayvaolam", ngayvaolam);
             cmd.Parameters.AddWithValue("@GioiTinh", gioitinhnv);
             cmd.Parameters.AddWithValue("@ChucvuNV", chucvunv);
-            cmd.Parameters.AddWithValue("@DiaChiNV", diachinv);
-            cmd.Parameters.AddWithValue("@SoDienThoaiNV", dienthoainv);
+            cmd.Parameters.AddWithValue("@DiaChi", diachinv);
+            cmd.Parameters.AddWithValue("@DienThoai", dienthoainv);
             try
             {
                 cmd.Parameters.Add("@kq",
@@ -223,12 +236,19 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         private void XoaNhanVien()
         {
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "sp_XOANHANVIEN";
+            cmd.CommandText =
+            @"@MaNhanVien CHAR(10) 
+	        BEGIN
+	        IF EXISTS(SELECT * FROM PHIEUNHACTRA WHERE MaNhanVien=@MaNhanVien)
+	        RETURN 1 ---TON TAI MA NV
+	        DELETE FROM NHANVIEN
+	        WHERE @MaNhanVien=MaNhanVien
+	        END";
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Connection = con;
             string manv;
             manv = txtManv.Text;
-            cmd.Parameters.Add("@MaNV", manv);
+            cmd.Parameters.Add("@MaNhanVien", manv);
             DialogResult noti;
             noti = MessageBox.Show("Ban muon xoa"," ", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (noti == DialogResult.Yes)
@@ -279,7 +299,22 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         private void suanv()
         {
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "sp_SUANHANVIEN";
+            cmd.CommandText =
+                @"@MaNhanVien CHAR(10),
+                @TenNhanVien NVARCHAR(50),
+                @NgaySinh DATETIME,
+                @NgayVaoLam DATETIME,
+                @GioiTinh Bit,
+                @ChucVuNV NVARCHAR(50),
+                @DiaChi NVARCHAR(50),
+                @DienThoai NVARCHAR(50)
+            BEGIN
+	        IF NOT EXISTS(SELECT * FROM NHANVIEN WHERE MaNhanVien=@MaNhanVien)
+	        RETURN 1 ---KHONG TON TAI MA NHAN VIEN
+	        UPDATE NHANVIEN
+	        SET TenNhanVien=@TenNhanVien,NgaySinh=@NgaySinh,GioiTinh=@GioiTinh,DiaChi=@DiaChi,DienThoai=@DienThoai,ChucVuNV=@ChucVuNV,NgayVaoLam=@NgayVaoLam
+	        WHERE MaNhanVien=@MaNhanVien
+	        END";
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Connection = con;
             string manv, tennv, chucvunv, diachinv, dienthoai;
@@ -333,13 +368,13 @@ namespace BTL_QLThuvien_Csharp_Nhom10
             chucvunv = txtChucvunv.Text;
             diachinv = txtDiachinv.Text;
             dienthoai = txtDienthoainv.Text;
-            cmd.Parameters.AddWithValue("@MaNV", manv);
-            cmd.Parameters.AddWithValue("@TenNV", tennv);
+            cmd.Parameters.AddWithValue("@MaNhanVien", manv);
+            cmd.Parameters.AddWithValue("@TenNhanVien", tennv);
             cmd.Parameters.AddWithValue("@NgaySinh", ngaysinh);
             cmd.Parameters.AddWithValue("@Ngayvaolam", ngayvaolam);
             cmd.Parameters.AddWithValue("@GioiTinh", gioitinh);
             cmd.Parameters.AddWithValue("@ChucvuNV", chucvunv);
-            cmd.Parameters.AddWithValue("@DiaChiNV", diachinv);
+            cmd.Parameters.AddWithValue("@DiaChi", diachinv);
             try
             {
                 cmd.Parameters.Add("@kq",

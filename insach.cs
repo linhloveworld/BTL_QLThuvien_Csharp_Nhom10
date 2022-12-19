@@ -17,7 +17,7 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         public insach()
         {
             InitializeComponent();
-            conn = new SqlConnection("Data Source=THINKPADE14;Initial Catalog=BTL_NET1_QLThuVienDataSet;Intergrated Security=True");
+            conn = new SqlConnection("Data Source=THINKPADE14/MSSQLSERVER01;Initial Catalog=QLThuVien_BTL_NET1;Integrated Security=True;User Id=sa;Password=1");
         }
 
         private void insach_Load(object sender, EventArgs e)

@@ -15,7 +15,7 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         public frmPhieumuonsach()
         {
             InitializeComponent();
-            con = new SqlConnection("Data Source=THINKPADE14;Initial Catalog=BTL_NET1_QLThuVienDataSet");
+            con = new SqlConnection("Data Source=THINKPADE14/MSSQLSERVER01;Initial Catalog=QLThuVien_BTL_NET1;Integrated Security=True;User Id=sa;Password=1");
         }
 
         private void frmPhieumuonsach_Load(object sender, EventArgs e)
@@ -78,7 +78,7 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.CommandText = "sp_LOADSACH";
+            cmd.CommandText = "SELECT * FROM SACH";
             cmd.Connection = con;
             DataTable sach = new DataTable();
             con.Open();
@@ -96,7 +96,7 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         {
             SqlCommand sqlcmd = new SqlCommand();
             sqlcmd.CommandType = CommandType.StoredProcedure;
-            sqlcmd.CommandText = "sp_LOADTHETHUVIEN";
+            sqlcmd.CommandText = "SELECT * FROM THETHUVIEN";
             sqlcmd.Connection = con;
             DataTable thethuvien = new DataTable();
             con.Open();
@@ -132,7 +132,21 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         {
             SqlCommand sqlcmd = new SqlCommand();
             sqlcmd.CommandType = CommandType.StoredProcedure;
-            sqlcmd.CommandText = "sp_LUUPHIEUMUON";
+            sqlcmd.CommandText =
+                @"@MaPhieuMuon CHAR(10),
+                    @MaSachMuon CHAR(10),
+                    @MaTheThuvIEN CHAR(10),
+                    @NgayMuon DATETIME
+                    AS
+	                    BEGIN
+	                    IF EXISTS(SELECT * FROM PHIEUMUON WHERE MaPhieuMuon=@MaPhieuMuon)
+	                    RETURN 1 ---TON TAI MA PHIEU MUON
+	                    IF NOT EXISTS(SELECT * FROM SACH WHERE MaSachMuon=@MaSachMuon)
+	                    RETURN 2 ---KHONG TON TAI MA SACH
+	                    IF NOT EXISTS(SELECT * FROM THETHUVIEN WHERE MaTheThuVien=@MaTheThuVien)
+	                    RETURN 3 ---KHONG TON TAI MA THE TV
+	                    INSERT INTO PHIEUMUON VALUES (@MaPhieuMuon,@MaSachMuon,@MaTheThuVien,@NgayMuon)
+	                    END";
             sqlcmd.Connection = con;
             string mapm, mathe, masach;
             DateTime ngaymuon;
@@ -140,9 +154,9 @@ namespace BTL_QLThuvien_Csharp_Nhom10
             mathe = cbomathe.SelectedValue.ToString();
             masach = cbomasach.SelectedValue.ToString();
             ngaymuon = DateTime.Parse(dtpngaymuon.Value.ToString());
-            sqlcmd.Parameters.AddWithValue("@MaPM", mapm);
-            sqlcmd.Parameters.AddWithValue("@MaSach", masach);
-            sqlcmd.Parameters.AddWithValue("@MaThe", mathe);
+            sqlcmd.Parameters.AddWithValue("@MaPhieuMuon", mapm);
+            sqlcmd.Parameters.AddWithValue("@MaSachMuon", masach);
+            sqlcmd.Parameters.AddWithValue("@MaTheThuVien", mathe);
             sqlcmd.Parameters.AddWithValue("@MNgayMuon", ngaymuon);
             try
             {
@@ -205,7 +219,23 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.CommandText = "sp_SUAPHIEUMUON";
+            cmd.CommandText =
+                @"@MaPhieuMuon CHAR(10),
+                    @MaSachMuon CHAR(10),
+                    @MaTheThuVien CHAR(10),
+                    @NgayMuon DATETIME
+                    AS
+	                    BEGIN
+	                    IF NOT EXISTS(SELECT * FROM PHIEUMUON WHERE MaPhieuMuon=@MaPhieuMuon)
+	                    RETURN 1 ---KHONG TON TAI MA PHIEU MUON
+	                    IF NOT EXISTS(SELECT * FROM SACH WHERE MaSach=@MaSach)
+	                    RETURN 2 ---KHONG TON TAI MA SACH
+	                    IF NOT EXISTS(SELECT * FROM THETHUVIEN WHERE MaTheThuVien=@MaTheThuVien)
+	                    RETURN 3 ---KHONG TON TAI MA THE THU VIEN
+	                    UPDATE PHIEUMUON
+	                    SET MaSachMuon=@MaSachMuon, MaTheThuVien=@MaTheThuVien,NgayMuon=@NgayMuon
+	                    WHERE MaPhieuMuon=@MaPhieuMuon
+	                    END";
             cmd.Connection = con;
             string mapm, mathe, masach;
             DateTime ngaymuon;
@@ -213,10 +243,10 @@ namespace BTL_QLThuvien_Csharp_Nhom10
             mathe = cbomathe.SelectedValue.ToString();
             masach = cbomasach.SelectedValue.ToString();
             ngaymuon = DateTime.Parse(dtpngaymuon.Value.ToString());
-            cmd.Parameters.Add("@MaPM", mapm);
-            cmd.Parameters.Add("@MaSach", masach);
-            cmd.Parameters.Add("@MaSach", mathe);
-            cmd.Parameters.Add("@MaSach", ngaymuon);
+            cmd.Parameters.Add("@MaPhieuMuon", mapm);
+            cmd.Parameters.Add("@MaSachMuon", masach);
+            cmd.Parameters.Add("@MaTheThuVien", mathe);
+            cmd.Parameters.Add("@NgayTra", ngaymuon);
             try
             {
                 cmd.Parameters.Add("@kq",
@@ -272,12 +302,20 @@ namespace BTL_QLThuvien_Csharp_Nhom10
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.CommandText = "sp_XOAPHIEUMUON";
-            cmd.Connection = con;
+            cmd.CommandText =
+                @"@MaPhieuMuon CHAR(10)
+                    AS
+	                    BEGIN
+	                    IF EXISTS(SELECT * FROM SACHMUON WHERE MaPhieuMuon=@MaPhieuMuon)
+	                    RETURN 1 ---TON TAI MA PM
+	                    DELETE FROM PHIEUMUON
+	                    WHERE @MaPhieuMuon=MaPhieuMuon
+	                    END";
+                                cmd.Connection = con;
             string mapm;
             DateTime ngaymuon;
             mapm = txtmapm.Text;
-            cmd.Parameters.Add("@MaPM", mapm);
+            cmd.Parameters.Add("@MaPhieuMuon", mapm);
             DialogResult kq1;
             kq1 = MessageBox.Show("Ban thuc su muon xoa?", "Chu y!", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (kq1 == DialogResult.Yes)
